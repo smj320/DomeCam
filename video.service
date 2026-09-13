@@ -1,0 +1,18 @@
+# /etc/systemd/system/video.service にコピー
+# systemctl daemon-reload
+# systemctl enable video.service
+# systemctl start video.service
+[Unit]
+Description=Video Record Script
+After=multi-user.target
+
+[Service]
+ExecStartPre=/bin/sleep 5
+ExecStart=/bin/bash /root/video/record.sh
+WorkingDirectory=/root/video/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
