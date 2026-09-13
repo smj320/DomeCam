@@ -125,6 +125,21 @@ crontab crontab.txt　で登録
 crontab -l で確認
 ```
 
-## 電源回路
-DC-DCの足は正面から見て左から [Vin, GND, Vout]
-* 出力側に3.3uFのセラミックコンデンサ
+## イメージの複製
+
+```bash
+# 1. 接続されているすべてのディスクとパーティションを確認する
+diskutil list
+
+# 2. 対象のディスクをアンマウントする（※ NとMは実際のディスク番号に書き換えてください）
+# 例: コピー元が /dev/disk2, コピー先が /dev/disk3 の場合
+diskutil unmountDisk /dev/disk2
+diskutil unmountDisk /dev/disk3
+
+# 3. ディスク間で直接コピーを実行する（if=コピー元, of=コピー先）
+sudo dd if=/dev/rdisk2 of=/dev/rdisk3 bs=4m status=progress
+
+# 4. 処理が完全に終了したら、安全に両方のディスクを取り出す
+diskutil eject /dev/disk2
+diskutil eject /dev/disk3
+```
